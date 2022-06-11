@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>XML Tree with D3</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <link rel="stylesheet" href="https://pyscript.net/alpha/pyscript.css" />
+    <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div style="width: 90%; margin: auto;">
+      <p>Enter Jack code below:</p>
+      <textarea id="jackTextArea" class="code-area"></textarea>
+      <button id="parseButton">Generate Parse Tree</button>
+    </div>
+    <textarea id="xmlText" style="display: none;"></textarea>
+    <py-env>
+      - paths:
+        - jack_tokenizer.py
+        - compilation_engine.py
+    </py-env>
+    <py-script src="jack_analyzer_browser.py"></py-script>
+    <!-- <div style="width: 45%; float: right; border-style: soild; border-width: 2px;">
+      <svg></svg>
+    </div> -->
+    <svg></svg>
+    <script src="tree.js"></script>
+  </body>
+</html>
