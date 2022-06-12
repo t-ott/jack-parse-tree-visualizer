@@ -1,3 +1,5 @@
+"use strict";
+
 // override defaults for text editing with Jack textarea
 document.getElementById('jackTextArea')
     .addEventListener('keydown', function(e) {
@@ -13,11 +15,9 @@ document.getElementById('jackTextArea')
 
 
 function makeTree(xmlStr) {
-    console.log("Starting makeTree() in tree.js")
-
     // xmlStr to xmlDoc
-    parser = new DOMParser();
-    xmlDoc = parser.parseFromString(xmlStr, "text/xml");
+    var parser = new DOMParser();
+    var xmlDoc = parser.parseFromString(xmlStr, "text/xml");
 
     // TODO:
     // handle parseerror:
@@ -30,9 +30,11 @@ function makeTree(xmlStr) {
     // clear existing svg
     svg.selectAll("*").remove();
     
-    const width = document.body.clientWidth;
-    const height = document.body.clientHeight;
-    const margin = {top: 0, right: 100, bottom: 0, left: 60};
+    // const width = document.body.clientWidth;
+    // const height = document.body.clientHeight;
+    const width = document.getElementById("tree-canvas").offsetWidth;
+    const height = document.getElementById("tree-canvas").offsetHeight;
+    const margin = {top: 50, right: 50, bottom: 50, left: 50};
     const innerWidth = width - margin.left - margin.right;
     const innerHeight = height - margin.top - margin.bottom;
     const tree = d3.tree().size([innerHeight, innerWidth]);
@@ -56,18 +58,18 @@ function makeTree(xmlStr) {
     g.selectAll('path').data(links)
         .enter()
         .append('path')
-        .attr('d', d3.linkHorizontal()
-            .x(d => d.y)
-            .y(d => d.x)
+        .attr('d', d3.linkVertical()
+            .x(d => d.x)
+            .y(d => d.y)
         )
     
     // nodes
     g.selectAll('text').data(root.descendants())
         .enter()
         .append('text')
-        .attr('dy', '0.32em')
-        .attr('x', d => d.y)
-        .attr('y', d => d.x)
+        .attr('dx', '-0.32em')
+        .attr('x', d => d.x)
+        .attr('y', d => d.y)
         .text(d => (d.height == 0) ? 
             d.data.tagName+" "+d.data.innerHTML :
             d.data.tagName
@@ -76,7 +78,7 @@ function makeTree(xmlStr) {
 
 
 function getXmlStr() {
-    currentXmlStr = document.getElementById("xmlText").value;
+    var currentXmlStr = document.getElementById("xmlText").value;
     if (currentXmlStr != xmlStr) {
         makeTree(currentXmlStr);
         xmlStr = currentXmlStr;

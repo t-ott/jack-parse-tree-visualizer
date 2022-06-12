@@ -4,29 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>XML Tree with D3</title>
+    <title>Jack Parse Tree Visualizer</title>
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <link rel="stylesheet" href="https://pyscript.net/alpha/pyscript.css" />
     <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <div style="width: 90%; margin: auto;">
-      <p>Enter Jack code below:</p>
-      <textarea id="jackTextArea" class="code-area"></textarea>
-      <button id="parseButton">Generate Parse Tree</button>
+    <div class="flex-container">
+      <textarea id="xmlText" style="display: none;"></textarea>
+
+      <div class="flex-child-left">
+        <p>Enter Jack code below:</p>
+        <textarea id="jackTextArea" class="code-area"></textarea>
+        <button id="parseButton">Generate Parse Tree</button>
+      </div>
+
+      <div class="flex-child-right" id="tree-canvas">
+        <svg></svg>
+        <py-env>
+          - paths:
+            - jack_tokenizer.py
+            - compilation_engine.py
+        </py-env>
+        <py-script src="jack_analyzer_browser.py"></py-script>
+        <script src="tree.js"></script>
+      </div>
+      
     </div>
-    <textarea id="xmlText" style="display: none;"></textarea>
-    <py-env>
-      - paths:
-        - jack_tokenizer.py
-        - compilation_engine.py
-    </py-env>
-    <py-script src="jack_analyzer_browser.py"></py-script>
-    <!-- <div style="width: 45%; float: right; border-style: soild; border-width: 2px;">
-      <svg></svg>
-    </div> -->
-    <svg></svg>
-    <script src="tree.js"></script>
   </body>
 </html>
