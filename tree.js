@@ -23,21 +23,18 @@ function makeTree(xmlStr) {
     // handle parseerror:
     // https://stackoverflow.com/questions/11563554/how-do-i-detect-xml-parsing-errors-when-using-javascripts-domparser-in-a-cross
     
-    // Building a Tree Visualization of World Countries with D3.js
-    // https://www.youtube.com/watch?v=jfpV7OBptYE
-    
     const svg = d3.select('svg');
     // clear existing svg
     svg.selectAll("*").remove();
     
-    // const width = document.body.clientWidth;
-    // const height = document.body.clientHeight;
     const width = document.getElementById("tree-canvas").offsetWidth;
     const height = document.getElementById("tree-canvas").offsetHeight;
     const margin = {top: 50, right: 50, bottom: 50, left: 50};
-    const innerWidth = width - margin.left - margin.right;
-    const innerHeight = height - margin.top - margin.bottom;
-    const tree = d3.tree().size([innerHeight, innerWidth]);
+    // const innerWidth = width - margin.left - margin.right;
+    // const innerHeight = height - margin.top - margin.bottom;
+    const tree = d3.tree()
+        .nodeSize([50, 100])
+        .separation(function(a,b) { return a.parent == b.parent ? 2 : 3});
     
     const zoomG = svg
         .attr('width', width)
@@ -54,7 +51,9 @@ function makeTree(xmlStr) {
     const root = d3.hierarchy(xmlDoc);
     const links = tree(root).links();
     
-    // one path element for each link in links
+    console.log(root.separation)
+
+    // links
     g.selectAll('path').data(links)
         .enter()
         .append('path')
@@ -62,24 +61,48 @@ function makeTree(xmlStr) {
             .x(d => d.x)
             .y(d => d.y)
         )
-    
-    // nodes
-    g.selectAll('text').data(root.descendants())
-        .enter()
-        .append('text')
-        .attr('dx', '-0.32em')
+
+    const nodes = g.append('g')
+        .selectAll('g')
+        .data(root.descendants())
+        .join('g');
+
+    function getTextLength(d) {
+        var tagNameLength = d.data.tagName.length;
+        var innerHTMLLength = d.children ? 0 : d.data.innerHTML.length;
+        return tagNameLength > innerHTMLLength ? tagNameLength*10 : innerHTMLLength*10;
+    }
+
+    nodes.append('rect')
+        .attr('x', d => d.data.tagName ? d.x - getTextLength(d)/2 : d.x)
+        .attr('y', d => d.y - 15)
+        .attr('width', d => d.data.tagName ? getTextLength(d) : null)
+        .attr('height', 35)
+        .attr('stroke', 'black')
+        .attr('fill', 'white');
+
+    // tagName text
+    nodes.append('text')
+        .style('font', '12px courier')
         .attr('x', d => d.x)
         .attr('y', d => d.y)
-        .text(d => (d.height == 0) ? 
-            d.data.tagName+" "+d.data.innerHTML :
-            d.data.tagName
-        );
-}
+        .attr("text-anchor", "middle")
+        .text(d => d.data.tagName);
 
+    // innerHTML text
+    nodes.append('text')
+        .style('font', '12px courier')
+        .attr('x', d => d.x)
+        .attr('y', d => d.y)
+        .attr('dy', '1em')
+        .attr('text-anchor', 'middle')
+        .text(d => d.children ? null : d.data.innerHTML);
+}
 
 function getXmlStr() {
     var currentXmlStr = document.getElementById("xmlText").value;
     if (currentXmlStr != xmlStr) {
+        console.log(currentXmlStr);
         makeTree(currentXmlStr);
         xmlStr = currentXmlStr;
     }
