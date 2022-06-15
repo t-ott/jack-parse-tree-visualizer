@@ -22,15 +22,8 @@ function makeTree(xmlStr) {
 
     if (errorNode) {
         console.log(errorNode)
-
-        var xmlLines = xmlStr.split(/\r?\n/);
-        console.log("xmlLines[311]: "+xmlLines[311]);
-        console.log("xmlLines[312]: "+xmlLines[312]);
-        console.log("xmlLines[313]: "+xmlLines[313]);
-        console.log("xmlLines[314]: "+xmlLines[314]);
-
     } else {
-        console.log("no error node!")
+        console.log("Successfully parsed XML")
     }
 
     const svg = d3.select('svg');
