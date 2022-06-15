@@ -16,13 +16,23 @@ document.getElementById('jackTextArea')
 
 function makeTree(xmlStr) {
     // xmlStr to xmlDoc
-    var parser = new DOMParser();
-    var xmlDoc = parser.parseFromString(xmlStr, "text/xml");
+    const parser = new DOMParser();
+    const xmlDoc = parser.parseFromString(xmlStr, "application/xml");
+    const errorNode = xmlDoc.querySelector('parsererror');
 
-    // TODO:
-    // handle parseerror:
-    // https://stackoverflow.com/questions/11563554/how-do-i-detect-xml-parsing-errors-when-using-javascripts-domparser-in-a-cross
-    
+    if (errorNode) {
+        console.log(errorNode)
+
+        var xmlLines = xmlStr.split(/\r?\n/);
+        console.log("xmlLines[311]: "+xmlLines[311]);
+        console.log("xmlLines[312]: "+xmlLines[312]);
+        console.log("xmlLines[313]: "+xmlLines[313]);
+        console.log("xmlLines[314]: "+xmlLines[314]);
+
+    } else {
+        console.log("no error node!")
+    }
+
     const svg = d3.select('svg');
     // clear existing svg
     svg.selectAll("*").remove();
@@ -46,12 +56,10 @@ function makeTree(xmlStr) {
     
     svg.call(d3.zoom().on('zoom', (event) => {
         zoomG.attr('transform', event.transform);
-    }))
+    }));
     
     const root = d3.hierarchy(xmlDoc);
     const links = tree(root).links();
-    
-    console.log(root.separation)
 
     // links
     g.selectAll('path').data(links)
@@ -60,7 +68,7 @@ function makeTree(xmlStr) {
         .attr('d', d3.linkVertical()
             .x(d => d.x)
             .y(d => d.y)
-        )
+        );
 
     const nodes = g.append('g')
         .selectAll('g')
@@ -70,14 +78,32 @@ function makeTree(xmlStr) {
     function getTextLength(d) {
         var tagNameLength = d.data.tagName.length;
         var innerHTMLLength = d.children ? 0 : d.data.innerHTML.length;
-        return tagNameLength > innerHTMLLength ? tagNameLength*10 : innerHTMLLength*10;
+        return tagNameLength > innerHTMLLength ? tagNameLength*9 : innerHTMLLength*9;
     }
 
+    function replaceEscaped(escapedStr) {
+        return escapedStr
+            .replace(/&lt;/g, '<')
+            .replace(/&gt;/g, '>')
+            .replace(/&quot;/g,'"')
+            .replace(/&amp;/g, '&');
+    }
+
+    // surrounding rect
     nodes.append('rect')
         .attr('x', d => d.data.tagName ? d.x - getTextLength(d)/2 : d.x)
         .attr('y', d => d.y - 15)
         .attr('width', d => d.data.tagName ? getTextLength(d) : null)
-        .attr('height', 35)
+        .attr('height', d => d.children ? 19 : 38)
+        .attr('stroke', 'black')
+        .attr('fill', 'white');
+
+    // innerText rect
+    nodes.append('rect')
+        .attr('x', d => d.data.tagName ? d.x - getTextLength(d)/2+3: d.x)
+        .attr('y', d => d.y + 2)
+        .attr('width', d => d.data.tagName ? getTextLength(d)-6 : null)
+        .attr('height', d => d.children ? 0 : 16)
         .attr('stroke', 'black')
         .attr('fill', 'white');
 
@@ -86,6 +112,7 @@ function makeTree(xmlStr) {
         .style('font', '12px courier')
         .attr('x', d => d.x)
         .attr('y', d => d.y)
+        .attr('dy', '-0.2em')
         .attr("text-anchor", "middle")
         .text(d => d.data.tagName);
 
@@ -94,19 +121,18 @@ function makeTree(xmlStr) {
         .style('font', '12px courier')
         .attr('x', d => d.x)
         .attr('y', d => d.y)
-        .attr('dy', '1em')
+        .attr('dy', '1.2em')
         .attr('text-anchor', 'middle')
-        .text(d => d.children ? null : d.data.innerHTML);
+        .text(d => d.children ? null : replaceEscaped(d.data.innerHTML));
 }
 
 function getXmlStr() {
     var currentXmlStr = document.getElementById("xmlText").value;
-    if (currentXmlStr != xmlStr) {
-        console.log(currentXmlStr);
+    if (currentXmlStr != lastXmlStr) {
         makeTree(currentXmlStr);
-        xmlStr = currentXmlStr;
+        lastXmlStr = currentXmlStr;
     }
 }
 
-var xmlStr = ""; // initialize global xmlStr var
+var lastXmlStr = ""; // initialize global xmlStr var
 setInterval(getXmlStr, 500);

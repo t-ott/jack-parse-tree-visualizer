@@ -30,7 +30,7 @@ def analyze(event) -> None:
     parsed_xml_str = compilation_engine.get_xml_str()
 
     xml_text = document.getElementById("xmlText")
-    xml_text.innerHTML = parsed_xml_str
+    xml_text.innerText = parsed_xml_str
 
 
 def setup() -> None:

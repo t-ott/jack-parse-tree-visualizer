@@ -6,7 +6,7 @@ Tree visualization built with [d3](https://github.com/d3/d3), compiler written i
 
 ## TODO
 - [x] Orient the parse tree vertically rather than horizontally
-- [ ] Style the nodes so that the tags and values are distinct from each other
+- [x] Style the nodes so that the tags and values are distinct from each other
 - [x] Style the page so that the Jack "IDE" is on the left, and the parse tree is on the right
 - [ ] Size the parse tree dynamically so that the whole tree is visible and nicely spaced when initially rendered
 - [ ] Add some sort of help document/popup/link for writing proper Jack syntax
