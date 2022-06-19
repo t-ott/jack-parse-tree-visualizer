@@ -11,26 +11,63 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
+    <div id="help-modal" class="modal">
+      <div id="help-modal-content" class="modal-content">
+        <span id="close-help" class="close">&times;</span>
+        <p>
+          The Jack compilier used here does not have syntax error handling abilities (yet).
+          Therefore, any Jack code must be written error-free.
+          See <a href="https://www.cs.huji.ac.il/course/2002/nand2tet/docs/ch_9_jack.pdf" target="_blank" style="color: blue; text-decoration: underline;">
+          Chapter 9 of the nand2tetris book</a> for help writing proper Jack code.
+        </p>
+      </div>
+    </div>
+
+    <div id="error-modal" class="modal">
+      <div id="error-modal-content" class="modal-content">
+        <span id="close-error" class="close">&times;</span>
+        <p>
+          <strong>ERROR.</strong> The Jack complier raised an error.
+          There may have been something wrong with the Jack code provided. See console for details.
+          <br/>
+          <br/>
+          The Jack compilier used here does not have syntax error handling abilities (yet).
+          Therefore, any Jack code must be written error-free.
+          See <a href="https://www.cs.huji.ac.il/course/2002/nand2tet/docs/ch_9_jack.pdf" target="_blank" style="color: blue; text-decoration: underline;">
+          Chapter 9 of the nand2tetris book</a> for help writing proper Jack code.
+        </p>
+      </div>
+    </div>
+
     <div class="flex-container">
       <textarea id="xmlText" style="display: none;"></textarea>
-
       <div class="flex-child-left">
-        <p>Enter Jack code below:</p>
-        <textarea id="jackTextArea" class="code-area"></textarea>
+        <p style="padding: 5px;">
+          Enter Jack code below:
+          <button id="help-button" style="float: right;">Help</button>
+        </p>
+        <textarea id="jackTextArea" class="code-area" spellcheck="false">
+class Main {
+  function void main() {
+    do Output.printString("Hello, world!");
+    do Output.println();
+    return;
+  }
+}</textarea>
         <button id="parseButton">Generate Parse Tree</button>
       </div>
-
       <div class="flex-child-right" id="tree-canvas">
         <svg></svg>
-        <py-env>
-          - paths:
-            - jack_tokenizer.py
-            - compilation_engine.py
-        </py-env>
-        <py-script src="jack_analyzer_browser.py"></py-script>
-        <script src="tree.js"></script>
       </div>
-      
     </div>
+
+    <py-env>
+      - paths:
+        - jack_tokenizer.py
+        - compilation_engine.py
+    </py-env>
+    <py-script src="jack_analyzer_browser.py"></py-script>
+    <script src="tree.js"></script>
+    <script src="help.js"></script>
   </body>
 </html>

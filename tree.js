@@ -23,7 +23,7 @@ function makeTree(xmlStr) {
     if (errorNode) {
         console.log(errorNode)
     } else {
-        console.log("Successfully parsed XML")
+        console.log("DOMParser successfully parsed XML")
     }
 
     const svg = d3.select('svg');
@@ -87,14 +87,14 @@ function makeTree(xmlStr) {
         .attr('x', d => d.data.tagName ? d.x - getTextLength(d)/2 : d.x)
         .attr('y', d => d.y - 15)
         .attr('width', d => d.data.tagName ? getTextLength(d) : null)
-        .attr('height', d => d.children ? 19 : 38)
+        .attr('height', d => d.children ? 19 : 37)
         .attr('stroke', 'black')
         .attr('fill', 'white');
 
     // innerText rect
     nodes.append('rect')
         .attr('x', d => d.data.tagName ? d.x - getTextLength(d)/2+3: d.x)
-        .attr('y', d => d.y + 2)
+        .attr('y', d => d.y + 3)
         .attr('width', d => d.data.tagName ? getTextLength(d)-6 : null)
         .attr('height', d => d.children ? 0 : 16)
         .attr('stroke', 'black')
