@@ -9,7 +9,7 @@ Tree visualization built with [d3](https://github.com/d3/d3), compiler written i
 - [x] Style the nodes so that the tags and values are distinct from each other
 - [x] Style the page so that the Jack "IDE" is on the left, and the parse tree is on the right
 - [ ] Size the parse tree dynamically so that the whole tree is visible and nicely spaced when initially rendered
-- [ ] Add some sort of help document/popup/link for writing proper Jack syntax
-- [ ] Do some sort of general error handling for compilation errors
+- [x] Add some sort of help document/popup/link for writing proper Jack syntax
+- [x] Do some sort of general error handling for compilation errors
 - [ ] Add option to collapse and expand nodes and their children as an interactive component
 - [ ] Integrate a working version into [t-ott.dev](https://www.t-ott.dev/)
