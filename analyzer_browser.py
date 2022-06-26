@@ -1,12 +1,12 @@
 from js import document
 from pyodide import create_proxy
-from jack_tokenizer import JackTokenizer
+from tokenizer import Tokenizer
 from compilation_engine import CompilationEngine
 
 def analyze(event) -> None:
     jack_text = document.getElementById("jackTextArea").value
 
-    tokenizer = JackTokenizer(jack_text)
+    tokenizer = Tokenizer(jack_text)
     compilation_engine = CompilationEngine(tokenizer)
 
     # run tokenizer

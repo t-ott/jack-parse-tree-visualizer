@@ -33,8 +33,7 @@ function makeTree(xmlStr) {
     const width = document.getElementById("tree-canvas").offsetWidth;
     const height = document.getElementById("tree-canvas").offsetHeight;
     const margin = {top: 50, right: 50, bottom: 50, left: 50};
-    // const innerWidth = width - margin.left - margin.right;
-    // const innerHeight = height - margin.top - margin.bottom;
+
     const tree = d3.tree()
         .nodeSize([50, 100])
         .separation(function(a,b) { return a.parent == b.parent ? 2 : 3});

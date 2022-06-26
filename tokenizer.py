@@ -15,7 +15,7 @@ SYMBOLS = [
     '>', '=', '~'
 ]
 
-class JackTokenizer:
+class Tokenizer:
     def __init__(self, jack: str):
         # Initialize xml
         self.tokenizer_root = minidom.Document()
