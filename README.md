@@ -12,4 +12,5 @@ Tree visualization built with [d3](https://github.com/d3/d3), compiler written i
 - [x] Add some sort of help document/popup/link for writing proper Jack syntax
 - [x] Do some sort of general error handling for compilation errors
 - [ ] Add option to collapse and expand nodes and their children as an interactive component
-- [ ] Integrate a working version into [t-ott.dev](https://www.t-ott.dev/)
+- [x] Integrate a working version into [t-ott.dev](https://www.t-ott.dev/)
+  - Done. See https://www.t-ott.dev/parse-tree-visualizer
